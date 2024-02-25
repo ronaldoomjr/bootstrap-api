@@ -8,6 +8,7 @@ import jakarta.validation.Valid
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriComponentsBuilder
@@ -52,4 +53,8 @@ class CategoryController(private val categoryService: CategoryService) {
     fun update(@PathVariable id: Long, @RequestBody @Valid categoryDTO: CategoryDTO): ResponseEntity<CategoryDTO> {
         return ResponseEntity.ok(categoryService.update(id, categoryDTO))
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun deleteById(@PathVariable id: Long) = categoryService.deleteById(id)
 }

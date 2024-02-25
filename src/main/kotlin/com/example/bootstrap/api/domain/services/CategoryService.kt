@@ -35,4 +35,7 @@ class CategoryService(private val categoryRepository: CategoryRepository) {
 
         return category.toDTO()
     }
+
+    fun deleteById(id: Long)
+            = categoryRepository.deleteById(id)
 }
