@@ -1,5 +1,6 @@
 package com.example.bootstrap.api.infra.persistence.entities
 
+import com.example.bootstrap.api.domain.dtos.CategoryDTO
 import java.time.LocalDateTime
 import jakarta.persistence.*
 
@@ -13,4 +14,11 @@ data class Category(
     var name: String,
 
     var createdAt: LocalDateTime = LocalDateTime.now()
+)
+
+// Extension Functions
+fun Category.toDTO() = CategoryDTO(
+    id = id,
+    name = name,
+    createdAt = createdAt
 )
