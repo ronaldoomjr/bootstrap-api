@@ -3,6 +3,7 @@ package com.example.bootstrap.api.web.controllers
 import com.example.bootstrap.api.domain.dtos.CategoryDTO
 import com.example.bootstrap.api.domain.services.CategoryService
 import com.example.bootstrap.api.infra.persistence.entities.toDTO
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
@@ -44,5 +45,11 @@ class CategoryController(private val categoryService: CategoryService) {
             return ResponseEntity.notFound().build()
 
         return ResponseEntity.ok(category.get().toDTO())
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    fun update(@PathVariable id: Long, @RequestBody @Valid categoryDTO: CategoryDTO): ResponseEntity<CategoryDTO> {
+        return ResponseEntity.ok(categoryService.update(id, categoryDTO))
     }
 }
