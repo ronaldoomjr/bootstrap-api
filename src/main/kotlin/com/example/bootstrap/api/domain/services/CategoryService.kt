@@ -2,12 +2,26 @@ package com.example.bootstrap.api.domain.services
 
 import com.example.bootstrap.api.domain.dtos.CategoryDTO
 import com.example.bootstrap.api.domain.dtos.toEntity
+import com.example.bootstrap.api.infra.persistence.entities.Category
 import com.example.bootstrap.api.infra.persistence.entities.toDTO
 import com.example.bootstrap.api.infra.persistence.repositories.CategoryRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class CategoryService(private val categoryRepository: CategoryRepository) {
     fun save(categoryDTO: CategoryDTO): CategoryDTO
             = categoryRepository.save(categoryDTO.toEntity()).toDTO()
+
+    fun findAll(name: String?, pageable: Pageable): Page<CategoryDTO> {
+        if (!name.isNullOrEmpty())
+            return categoryRepository.findByNameIgnoreCase(name, pageable).map { it.toDTO() }
+
+        return categoryRepository.findAll(pageable).map { it.toDTO() }
+    }
+
+    fun findById(id: Long): Optional<Category>
+            = categoryRepository.findById(id)
 }
